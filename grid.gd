@@ -21,12 +21,12 @@ func _ready():
 	if Engine.is_editor_hint():
 		return
 	reset()
-
+	
 func _draw():
 	draw_rect(Rect2(0,0,width*32,height*32),Color.red,false)
 # Public methods ---------------------------------------------------------------
 func index(x,y)->int:
-	return x+y*height
+	return int(x)%width+int(y)*width
 
 func reset():
 	_create_root()
@@ -117,10 +117,10 @@ func _neighbors_same_color(tile)->Array:
 	var p=_tile_grid_position(tile)
 	var x=p.x
 	var y=p.y
-	var up=t[index(x,y-1)] if y>0 else null
-	var down=t[index(x,y+1)] if y<9 else null
-	var left=t[index(x-1,y)] if x>0 else null
-	var right=t[index(x+1,y)] if x<9 else null
+	var up=_tile_at(x,y-1)
+	var down=_tile_at(x,y+1)
+	var left=_tile_at(x-1,y)
+	var right=_tile_at(x+1,y)
 	var a=[]
 	if up and _tiles_same_color(tile,up):
 		a.append(up)
@@ -138,6 +138,8 @@ func _on_swap(tile1,tile2):
 
 func _tile_at(x,y):
 	var t=_tiles()
+	if x<0 or x>=width or y<0 or y>=height:
+		return null
 	return t[index(x,y)]
 
 func _tile_new(x,y):
