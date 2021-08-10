@@ -72,6 +72,17 @@ func _create_root():
 	_tiles_root.name="tiles"
 	add_child(_tiles_root)
 
+func _drop_columns():
+	for x in range(width):
+		var empty_count:int=0
+		for y in range(height-1,-1,-1):
+			var tile_here=_tile_at(x,y)
+			if not tile_here.visible:
+				empty_count+=1
+			else:
+				if empty_count>0:
+					swap(tile_here,_tile_at(x,y+empty_count))
+
 func _fill():
 	randomize()
 	var kernels=[
@@ -186,4 +197,5 @@ func _validate_move(tile1,tile2):
 		var m2=_contiguous_tiles_of_same_color(tile2)
 		if _find_row_or_column(m2):
 			_tiles_destroy(m2)
+	_drop_columns()
 

@@ -22,6 +22,7 @@ scale = 2.0
 color_ramp = SubResource( 2 )
 
 [node name="particles" type="Particles2D"]
+z_index = 5
 emitting = false
 amount = 128
 lifetime = 2.0

@@ -54,15 +54,13 @@ func swap_out():
 # Private methods --------------------------------------------------------------
 func _on_Control_gui_input(event:InputEvent):
 	if !_grabbed:
-		if event is InputEventMouseButton:
+		if event.is_action("ui_click"):
 			if event.button_index == BUTTON_LEFT and event.pressed:
 				print(self," clicked.")
 				_tween.stop(_mover,"position")
 				_grabbed=true
 				z_index=2
 				_animations.play("grab")
-#	if event.is_action("ui_accept"):
-#		print("!!")
 func _on_tween_tween_completed(object, key):
 	if object==_mover and key==":position":
 		_grabbed=false
